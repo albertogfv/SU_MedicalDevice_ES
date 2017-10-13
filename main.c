@@ -54,7 +54,8 @@ displayData dPtrs={
       &d1.tempCorrected,
       &d1.systolicPressCorrected, 
       &d1.diastolicPressCorrected, 
-      &d1.pulseRateCorrected
+      &d1.pulseRateCorrected,
+      &s1.batteryState
 };
 
 warningAlarmData wPtrs={
