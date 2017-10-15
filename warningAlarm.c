@@ -37,7 +37,7 @@ void checkWarnings(void *data)
   unsigned int* sys = (*alarm).systolicPressRawPtr;
   unsigned int* dia = (*alarm).diastolicPressRawPtr;
   unsigned int* pulse = (*alarm).pulseRateRawPtr;
-  unsigned char* battery = (*alarm).batteryStatePtr;
+  unsigned short* battery = (*alarm).batteryStatePtr;
   unsigned char* bpOut = (*alarm).bpOutOfRangePtr;
   unsigned char* tempOut = (*alarm).tempOutOfRangePtr;
   unsigned char* pulseOut = (*alarm).pulseOutOfRangePtr;
