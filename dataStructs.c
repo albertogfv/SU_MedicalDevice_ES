@@ -55,3 +55,13 @@ typedef struct{
 	unsigned int globalCounter;
 }scheduler;
 #define INIT_SCHEDULER(X) scheduler X={0};
+
+// Datastruct for keypad data
+typedef struct{
+	unsigned short mode;
+	unsigned short measurementSelection;
+	unsigned short scroll;
+	unsigned short select;
+	unsigned short alarmAcknowledge;
+}keypad;
+#define INIT_KEYPAD(X) keypad X={0,0,0,0,0,0};
