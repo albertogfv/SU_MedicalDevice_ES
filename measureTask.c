@@ -5,17 +5,20 @@
 #include "bool.h"
 
 
-
+void measureTempArray(void* data);
 void measure(void* data)
 {
     //cast the void* data to a measureData struct
     measureData * measureDataPtr = (measureData*) data;
+    //measureData2 * measureDataPtr = (measureData2*) data;
     
     
     //printf("Count Calls = %d \n", (*(*measureDataPtr).countCallsPtr));
   
     // all the print statements were for tracking the output without needing the debugger
     measureTemp(data);
+    //USE THE line below and no other measure functions
+    //measureTempArray(data);
     //printf("Temp Raw = %d \n", *(*measureDataPtr).temperatureRawPtr); 
     measureSysBP(data);
     //printf("sysRaw = %d \n", *(*measureDataPtr).systolicPressRawPtr);
@@ -27,7 +30,7 @@ void measure(void* data)
     
     //Moved this to after the measurements so we start at index 0
     //increment the count entry
-    (*(*measureDataPtr).countCallsPtr)++;
+    ++(*(*measureDataPtr).countCallsPtr);
 }
 
 /*
@@ -62,7 +65,7 @@ Output Null
 Do: updates the tempRaw based on algorithm
 */
 void measureTempArray(void* data){
-  measureData* measureDataPtr = (measureData*) data;
+  measureData2* measureDataPtr = (measureData2*) data;
   //printf("This is a measureTemp Function \n");
   //Check to see if the temperature is increasing or decreasing
   int* direction = (*measureDataPtr).tempDirectionPtr;
@@ -70,7 +73,7 @@ void measureTempArray(void* data){
   //Creates a local pointer to the countCalls Variable
   unsigned int* countCalls = (*measureDataPtr).countCallsPtr;
   //Creates a local pointer to the start of the array
-  unsigned int* tempRawBuf = (*measureDataPtr).temperatureRawPtr;
+  unsigned int* tempRawBuf = (*measureDataPtr).temperatureRawBufPtr;
   
   //find the current index of the array based on call count. 
   unsigned int index = (*countCalls) %8;
@@ -84,7 +87,9 @@ void measureTempArray(void* data){
     *direction = 1;
   }
   // increment or decrement (using the direction value) If even the magnitude is 2 if odd the magnitude is 1
-  tempRawBuf[next] +=  (*direction) * (((*countCalls + 1) % 2) + 1);
+  printf("TempRawBefore = %d \n", tempRawBuf[index]);
+  tempRawBuf[next] = tempRawBuf[index] + (*direction) * (((*countCalls + 1) % 2) + 1);
+  printf("TempRawAfter = %d \n",tempRawBuf[next]);
 };
 
 /*

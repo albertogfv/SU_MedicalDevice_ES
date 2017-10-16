@@ -15,9 +15,9 @@ typedef struct //Holds pointers to the variables:
 
 typedef struct //Holds pointers to the variables: 
 {
-      unsigned int* temperatureRawPtr;
-      unsigned int* bloodPressRawPtr;
-      unsigned int* pulseRateRawPtr;
+      unsigned int* temperatureRawBufPtr;
+      unsigned int* bloodPressRawBufPtr;
+      unsigned int* pulseRateRawBufPtr;
       unsigned int* countCallsPtr;
       //Variables to simulate data measurements
       unsigned int* sysCompletePtr;

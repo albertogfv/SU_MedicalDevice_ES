@@ -40,9 +40,9 @@ measureData mPtrs =
 };
 
 measureData2 mPtrs2 = 
-{     &m2.temperatureRawBuf[8],
-      &m2.bloodPressRawBuf[16],
-      &m2.pulseRateRawBuf[8],
+{     m2.temperatureRawBuf,
+      m2.bloodPressRawBuf,
+      m2.pulseRateRawBuf,
       &m2.countCalls,
       &m2.sysComplete,
       &m2.diaComplete,
@@ -157,6 +157,8 @@ void schedule(void* data)
 
 	    measureT.taskPtr = measure;
         measureT.taskDataPtr = (void*)&mPtrs;
+        //Comment out the above line and use the new line below. You will also need to uncomment some lines in measureTask.c
+        //measureT.taskDataPtr = (void*)&mPtrs2;
 	
         statusT.taskPtr = stat;
         statusT.taskDataPtr = (void*)&sPtrs;
