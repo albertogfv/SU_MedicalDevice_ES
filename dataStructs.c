@@ -27,7 +27,7 @@ typedef struct
     int tempDirection;
     int prDirection;
 } measurement2;
-#define INIT_MEASUREMENT2(X) measurement2 X ={NULL,NULL,NULL,0,0,0,1,1};
+#define INIT_MEASUREMENT2(X) measurement2 X ={{75,NULL,NULL,NULL,NULL,NULL,NULL,NULL},{80,NULL,NULL,NULL,NULL,NULL,NULL,NULL,80,NULL,NULL,NULL,NULL,NULL,NULL,NULL},{75,NULL,NULL,NULL,NULL,NULL,NULL,NULL},0,0,0,1,1};
 
 
 
@@ -47,14 +47,14 @@ typedef struct
 }display2;
 
 #define INIT_DISPLAY(X) display X ={NULL,NULL,NULL,NULL};
-#define INIT_DISPLAY2(X) display2 X ={NULL,NULL,NULL,NULL};
+#define INIT_DISPLAY2(X) display2 X ={NULL,NULL,NULL};
 
 typedef struct
 {
 	unsigned short batteryState;
 }status;
 
-#define INIT_STATUS(X) status X ={'\0'};
+#define INIT_STATUS(X) status X ={200};
 
 typedef struct
 {
