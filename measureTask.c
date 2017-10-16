@@ -11,8 +11,7 @@ void measure(void* data)
     //cast the void* data to a measureData struct
     measureData * measureDataPtr = (measureData*) data;
     
-    //increment the count entry
-    (*(*measureDataPtr).countCallsPtr)++;
+    
     //printf("Count Calls = %d \n", (*(*measureDataPtr).countCallsPtr));
   
     // all the print statements were for tracking the output without needing the debugger
@@ -24,6 +23,11 @@ void measure(void* data)
     //printf("diaRaw = %d \n", *(*measureDataPtr).diastolicPressRawPtr);
     measurePR(data);
     //printf("prRaw = %d \n", *(*measureDataPtr).pulseRateRawPtr);
+    
+    
+    //Moved this to after the measurements so we start at index 0
+    //increment the count entry
+    (*(*measureDataPtr).countCallsPtr)++;
 }
 
 /*
@@ -49,8 +53,36 @@ void measureTemp(void* data){
   }
   // increment or decrement (using the direction value) If even the magnitude is 2 if odd the magnitude is 1
   *tempRaw +=  (*direction) * (((*countCalls + 1) % 2) + 1);
-  
+};
 
+/*
+Function measureTempArray
+Input pointer to measureData
+Output Null
+Do: updates the tempRaw based on algorithm
+*/
+void measureTempArray(void* data){
+  measureData* measureDataPtr = (measureData*) data;
+  //printf("This is a measureTemp Function \n");
+  //Check to see if the temperature is increasing or decreasing
+  int* direction = (*measureDataPtr).tempDirectionPtr;
+  unsigned int* countCalls = (*measureDataPtr).countCallsPtr;
+  //Creates a local pointer to the start of the array
+  unsigned int* tempRawBuf = (*measureDataPtr).temperatureRawPtr;
+  
+  //find the current index of the array based on call count. 
+  unsigned int index = (*countCalls) %8;
+  unsigned int next = (*countCalls +1) %8;
+  //If temperature is above 50 and increasing swap the direction
+  if (50<=tempRawBuf[index] && 1 == *direction){
+    *direction = -1;
+  }
+  //If temperature is below 15 and decreasing swap the direction
+  else if (15>=tempRawBuf[index] && -1 == *direction){  
+    *direction = 1;
+  }
+  // increment or decrement (using the direction value) If even the magnitude is 2 if odd the magnitude is 1
+  tempRawBuf[next] +=  (*direction) * (((*countCalls + 1) % 2) + 1);
 };
 
 /*

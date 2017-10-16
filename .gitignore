@@ -1,0 +1,14 @@
+
+*.out
+*.sim
+*.o
+*.pbi
+*.bat
+settings/FinalProject.dni
+settings/FinalProject.dbgdt
+Debug/Obj/FinalProject.pbd
+FinalProject.ewd
+FinalProject.ewp
+FinalProject.ewd
+*.ewd
+FinalProject.dep
