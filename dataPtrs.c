@@ -13,6 +13,19 @@ typedef struct //Holds pointers to the variables:
       int* prDirectionPtr;
 } measureData;
 
+typedef struct //Holds pointers to the variables: 
+{
+      unsigned int* temperatureRawPtr;
+      unsigned int* bloodPressRawPtr;
+      unsigned int* pulseRateRawPtr;
+      unsigned int* countCallsPtr;
+      //Variables to simulate data measurements
+      unsigned int* sysCompletePtr;
+      unsigned int* diaCompletePtr;
+      int* tempDirectionPtr;
+      int* prDirectionPtr;
+} measureData2;
+
 typedef struct 
 {
 	
@@ -32,7 +45,7 @@ typedef struct
 	unsigned char** sysCorrectedPtr;
 	unsigned char** diasCorrectedPtr;
 	unsigned char** prCorrectedPtr;
-	unsigned char** batteryStatePtr;
+	unsigned short* batteryStatePtr;
 }displayData;
 
 typedef struct
@@ -41,7 +54,7 @@ typedef struct
   unsigned int* systolicPressRawPtr;
   unsigned int* diastolicPressRawPtr;
   unsigned int* pulseRateRawPtr;
-	unsigned char* batteryStatePtr;
+	unsigned short* batteryStatePtr;
   unsigned char* bpOutOfRangePtr;
 	unsigned char* tempOutOfRangePtr;
 	unsigned char* pulseOutOfRangePtr;
@@ -54,7 +67,7 @@ typedef struct
 
 typedef struct 
 {
-	unsigned char* batteryStatePtr;
+	unsigned short* batteryStatePtr;
 }statusData;
 
 typedef struct
