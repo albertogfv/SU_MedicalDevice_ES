@@ -84,7 +84,7 @@ typedef struct{
 	unsigned short mode;
 	unsigned short measurementSelection;
 	unsigned short scroll;
-	unsigned short select;
+	unsigned short selectChoice;
 	unsigned short alarmAcknowledge;
 }keypad;
 #define INIT_KEYPAD(X) keypad X={0,0,0,0,0,0};

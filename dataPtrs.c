@@ -74,3 +74,20 @@ typedef struct
 {
 	unsigned int* globalCounterPtr;
 }schedulerData;
+
+typedef struct
+{
+  unsigned short* modePtr;
+  unsigned short* measurementSelectionPtr;
+  unsigned short* scrollPtr;
+  unsigned short* selectChoicePtr;
+  unsigned short* alarmAcknowledge;
+}keypadData;
+
+typedef struct
+{
+  unsigned char* tempCorrectedBufPtr;
+  unsigned char* bloodPressCorrectedBufPtr;
+  unsigned char* prCorrectedBufPtr;
+  unsigned short* batteryStatePtr;
+}communicationsData;

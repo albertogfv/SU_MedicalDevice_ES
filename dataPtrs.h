@@ -15,4 +15,8 @@ struct warningAlarmData;
 struct statusData;
 
 struct schedulerData;
+
+struct keypadData;
+
+struct communicationsData;
 #endif
