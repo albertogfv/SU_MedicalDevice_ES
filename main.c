@@ -19,7 +19,6 @@
 //  Declare the globals
 
 INIT_MEASUREMENT(m1);
-INIT_MEASUREMENT2(m2);
 INIT_DISPLAY(d1);
 INIT_STATUS(s1);
 INIT_ALARMS(a1);
@@ -37,17 +36,6 @@ measureData mPtrs =
       &m1.diaComplete,
       &m1.tempDirection,
       &m1.prDirection
-};
-
-measureData2 mPtrs2 = 
-{     &m2.temperatureRawBuf[8],
-      &m2.bloodPressRawBuf[16],
-      &m2.pulseRateRawBuf[8],
-      &m2.countCalls,
-      &m2.sysComplete,
-      &m2.diaComplete,
-      &m2.tempDirection,
-      &m2.prDirection
 };
 
 computeData cPtrs=

@@ -27,7 +27,7 @@ typedef struct
     int tempDirection;
     int prDirection;
 } measurement2;
-#define INIT_MEASUREMENT2(X) measurement2 X ={NULL,NULL,NULL,0,0,0,1,1};
+#define INIT_MEASUREMENT2(X) measurement2 X ={75,80,80,2,0,0,0,1,1};
 
 
 

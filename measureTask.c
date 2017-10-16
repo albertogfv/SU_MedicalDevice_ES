@@ -66,8 +66,6 @@ void measureTempArray(void* data){
   //printf("This is a measureTemp Function \n");
   //Check to see if the temperature is increasing or decreasing
   int* direction = (*measureDataPtr).tempDirectionPtr;
-  
-  //Creates a local pointer to the countCalls Variable
   unsigned int* countCalls = (*measureDataPtr).countCallsPtr;
   //Creates a local pointer to the start of the array
   unsigned int* tempRawBuf = (*measureDataPtr).temperatureRawPtr;
