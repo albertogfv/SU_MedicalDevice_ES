@@ -9,7 +9,7 @@
     unsigned short*temp3=(unsigned short*)(*word).batteryStatePtr;
    
     --*temp3;//= *temp3 - 1;
-    (*word).batteryStatePtr = (unsigned char *)(*temp3);
+    //(*word).batteryStatePtr = (unsigned char *)(*temp3);
 	return;
  }
 	
