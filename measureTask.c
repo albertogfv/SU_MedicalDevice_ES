@@ -5,7 +5,6 @@
 #include "bool.h"
 
 
-void measureTempArray(void* data);
 void measure(void* data)
 {
     //cast the void* data to a measureData struct
@@ -16,21 +15,31 @@ void measure(void* data)
     //printf("Count Calls = %d \n", (*(*measureDataPtr).countCallsPtr));
   
     // all the print statements were for tracking the output without needing the debugger
+    //Comment/Uncomment the line below for project 2
     measureTemp(data);
-    //USE THE line below and no other measure functions
+    //Comment/Uncomment the line below for project 3
     //measureTempArray(data);
-    //printf("Temp Raw = %d \n", *(*measureDataPtr).temperatureRawPtr); 
+    
+    //Comment/Uncomment the line below for project 2
     measureSysBP(data);
-    //printf("sysRaw = %d \n", *(*measureDataPtr).systolicPressRawPtr);
+    //Comment/Uncomment the line below for project 3
+    //measureSysBPArray(data);
+    
+    //Comment/Uncomment the line below for project 2
     measureDiaBP(data);
-    //printf("diaRaw = %d \n", *(*measureDataPtr).diastolicPressRawPtr);
-    measurePR(data);
-    //printf("prRaw = %d \n", *(*measureDataPtr).pulseRateRawPtr);
+    //Comment/Uncomment the line below for project 3
+    //measureDiaBPArray(data);
+    
+    
+    //measurePR(data);
+    
     
     
     //Moved this to after the measurements so we start at index 0
     //increment the count entry
     ++(*(*measureDataPtr).countCallsPtr);
+    
+    //TODO: ADD A FLAG TO addTask FOR COMPUTE TASK
 }
 
 /*
@@ -162,6 +171,82 @@ void measureDiaBP(void* data){
 
 
 /*
+Function measureSysBp
+Input pointer to measureData
+Output Null
+Do: Places Systolic into array indexes 0-7
+*/
+void measureSysBPArray(void* data){
+    measureData2* measureDataPtr = (measureData2*) data;
+    //printf("This is a measureSysBp Function \n");
+    //Check to see if the DiaBp is complete and repeat the original proces
+    unsigned int* countCalls = (*measureDataPtr).countCallsPtr;
+    unsigned int* bloodPressRawBuf  = (*measureDataPtr).bloodPressRawBufPtr;
+    unsigned int* sysComplete = (*measureDataPtr).sysCompletePtr;
+    unsigned int* diaComplete = (*measureDataPtr).diaCompletePtr;
+    //find the current index of the array based on call count. 
+    unsigned int sysLast = (*countCalls) %8;
+    unsigned int sysNext = (*countCalls +1) %8;
+    
+    if (1==*diaComplete && bloodPressRawBuf[sysLast]>100){
+      bloodPressRawBuf[sysNext] = 80;
+      *diaComplete = 0;
+    }
+    // If the sysBP <= 100 its not complete so we increment it
+    if (100 >= bloodPressRawBuf[sysLast] ){
+      if  ( (*countCalls % 2) == 0){
+        bloodPressRawBuf[sysNext] = bloodPressRawBuf[sysLast] + 3;
+      }
+      else{
+        bloodPressRawBuf[sysNext] = bloodPressRawBuf[sysLast] - 1;
+      }
+    }
+    // If sysBP > 100 it is complete and we wait til diaCompletes
+    if (100 < bloodPressRawBuf[sysNext]){
+      *sysComplete = 1;
+    }
+};
+
+/*
+Function measureDiaBp
+Input pointer to measureData
+Output Null
+Do: Places Systolic into array indexes 8-15
+*/
+void measureDiaBPArray(void* data){
+  
+    measureData2* measureDataPtr = (measureData2*) data;
+    unsigned int* countCalls = (*measureDataPtr).countCallsPtr;
+    unsigned int* bloodPressRawBuf = (*measureDataPtr).bloodPressRawBufPtr;
+    unsigned int* sysComplete = (*measureDataPtr).sysCompletePtr;
+    unsigned int* diaComplete = (*measureDataPtr).diaCompletePtr;
+    unsigned int diaLast = ((*countCalls) %8) + 8;
+    unsigned int diaNext = ((*countCalls +1) %8) + 8;
+   // printf("This is a measureSysBp Function \n");
+  //Check to see if the DiaBp is complete and repeat the original proces
+     if (1==*sysComplete && bloodPressRawBuf[diaLast]<40){
+      bloodPressRawBuf[diaNext] = 80;
+      *sysComplete = 0;
+      }
+    // If diastolyic BP is above 40 it is not complete
+    if (40 <= bloodPressRawBuf[diaLast]){
+      if  ( ((*countCalls) % 2) == 0){
+        bloodPressRawBuf[diaNext] = bloodPressRawBuf[diaLast] - 2;
+      }
+      else{
+        bloodPressRawBuf[diaNext] = bloodPressRawBuf[diaLast] + 1;
+      }
+    } 
+    // diastolyic BP drops below 40 and is complete
+    if (40 > bloodPressRawBuf[diaNext]){
+      *diaComplete = 1;
+    }
+};
+
+
+
+
+/*
 Function measurePr
 Input pointer to measureData
 Output Null
@@ -173,6 +258,8 @@ void measurePR(void* data){
     unsigned int* countCalls = (*measureDataPtr).countCallsPtr;
     unsigned int* prRaw = (*measureDataPtr).pulseRateRawPtr;
     int* direction = (*measureDataPtr).prDirectionPtr;
+    
+    
   //If pulse rate is above 40 and increasing swap the direction
   if (40<=*prRaw && 1 == *direction){
     *direction = -1;
@@ -190,5 +277,15 @@ void measurePR(void* data){
   else {
     *prRaw += (*direction * 3);
   }
+
+};
+/*
+Function measurePrArray
+Input pointer to measureData
+Output Null
+Do: Needs to be updated with the model transducer handling.
+*/
+void measurePRArray(void* data){
+
 
 }
