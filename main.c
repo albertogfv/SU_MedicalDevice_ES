@@ -26,6 +26,7 @@ INIT_STATUS(s1);
 INIT_ALARMS(a1);
 INIT_WARNING(w1);
 INIT_SCHEDULER(c1);
+INIT_KEYPAD(k1);
 
 //Connect pointer structs to data
 measureData mPtrs = 
@@ -70,7 +71,9 @@ computeData2 cPtrs2=
       m2.pulseRateRawBuf,
       d2.tempCorrectedBuf,
       d2.bloodPressCorrectedBuf,
-      d2.pulseRateCorrectedBuf
+      d2.pulseRateCorrectedBuf,
+      &k1.measurementSelection,
+      &m2.countCalls
 };
 
 displayData dPtrs={
@@ -128,66 +131,64 @@ void disableVisibleAnnunciation();
 
 void main(void)
 {
-	TCB scheduleT;
+  TCB scheduleT;
         
-    scheduleT.taskPtr = schedule;
-    scheduleT.taskDataPtr = (void*)&schedPtrs;
+  scheduleT.taskPtr = schedule;
+  scheduleT.taskDataPtr = (void*)&schedPtrs;
     
-    TCB* aTCBPtr;
+  TCB* aTCBPtr;
 	
-	aTCBPtr = &scheduleT;
-	aTCBPtr->taskPtr((aTCBPtr->taskDataPtr) ); 
-                
-	return;
+  aTCBPtr = &scheduleT;
+  aTCBPtr->taskPtr((aTCBPtr->taskDataPtr) ); 
+          
+  return;
 
 }
 
 
 void schedule(void* data)
 {
-        int toggle =0;
-        int start =0;
-        int i=0;
-        TCB* queue[7];	          //  declare queue as an array of pointers to TCBs
-     
-	    //  Declare some TCBs 
-	    TCB displayT;
-	    TCB measureT;
-	    TCB statusT;
-        TCB computeT;
-        TCB warningT;
-        
-	    //  Declare a working TCB pointer
-	
-        TCB* aTCBPtr;
+  int toggle =0;
+  int start =0;
+  int i=0;
+  TCB* queue[7];	    //  declare queue as an array of pointers to TCBs
 
-	    //Initialize the TCBs
+  //  Declare some TCBs 
+  TCB displayT;
+  TCB measureT;
+  TCB statusT;
+  TCB computeT;
+  TCB warningT;
+  
+  //  Declare a working TCB pointer
+  
+  TCB* aTCBPtr;
 
-	    displayT.taskPtr = disp;
-        displayT.taskDataPtr = (void*)&dPtrs;
+  //Initialize the TCBs
+  displayT.taskPtr = disp;
+  displayT.taskDataPtr = (void*)&dPtrs;
+  measureT.taskPtr = measure;
+  //measureT.taskDataPtr = (void*)&mPtrs;
+  //Comment out the above line and use the new line below. You will also need to uncomment some lines in measureTask.c
+  measureT.taskDataPtr = (void*)&mPtrs2;
+  
+  statusT.taskPtr = stat;
+  statusT.taskDataPtr = (void*)&sPtrs;
 
-	    measureT.taskPtr = measure;
-        measureT.taskDataPtr = (void*)&mPtrs;
-        //Comment out the above line and use the new line below. You will also need to uncomment some lines in measureTask.c
-        //measureT.taskDataPtr = (void*)&mPtrs2;
-	
-        statusT.taskPtr = stat;
-        statusT.taskDataPtr = (void*)&sPtrs;
+  computeT.taskPtr = compute;
+  computeT.taskDataPtr = (void*)&cPtrs2;
 
-        computeT.taskPtr = compute;
-        computeT.taskDataPtr = (void*)&cPtrs;
-
-        warningT.taskPtr = alarm;
-        warningT.taskDataPtr = (void*)&wPtrs;
-        
-        //Initialize the task queue
-	    queue[0] = &measureT;
-	    queue[1] = &warningT;
-        queue[2] = &statusT;
-        queue[3] = &computeT;
-        queue[4] = &displayT;
-        //queue[5] = &scheduleT;
-	    //queue[6] = &displayTask;
+  warningT.taskPtr = alarm;
+  warningT.taskDataPtr = (void*)&wPtrs;
+  
+  //Initialize the task queue
+      queue[0] = &measureT;
+      queue[1] = &warningT;
+  queue[2] = &statusT;
+  queue[3] = &computeT;
+  queue[4] = &displayT;
+  //queue[5] = &scheduleT;
+      //queue[6] = &displayTask;
 
 	   
     

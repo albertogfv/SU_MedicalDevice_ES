@@ -87,4 +87,4 @@ typedef struct{
   unsigned short selectChoice;
   unsigned short alarmAcknowledge;
 }keypad;
-#define INIT_KEYPAD(X) keypad X={0,0,0,0,0,0};
+#define INIT_KEYPAD(X) keypad X={0,0,0,0,0};

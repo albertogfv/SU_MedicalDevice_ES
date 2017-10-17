@@ -54,6 +54,7 @@ typedef struct
   unsigned char* bloodPressCorrectedBufPtr;
   unsigned char* pulseRateCorrectedBufPtr;
   unsigned short* measurementSelectionPtr;
+  unsigned int* countCallsPtr;
 }computeData2;
 
 // Holds pointers to the variables associated with display task:
