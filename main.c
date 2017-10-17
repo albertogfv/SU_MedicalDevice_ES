@@ -21,6 +21,7 @@
 INIT_MEASUREMENT(m1);
 INIT_MEASUREMENT2(m2);
 INIT_DISPLAY(d1);
+INIT_DISPLAY2(d2);
 INIT_STATUS(s1);
 INIT_ALARMS(a1);
 INIT_WARNING(w1);
@@ -60,6 +61,16 @@ computeData cPtrs=
       &d1.systolicPressCorrected, 
       &d1.diastolicPressCorrected, 
       &d1.pulseRateCorrected
+};
+
+computeData2 cPtrs2=
+{
+      m2.temperatureRawBuf,
+      m2.bloodPressRawBuf,
+      m2.pulseRateRawBuf,
+      d2.tempCorrectedBuf,
+      d2.bloodPressCorrectedBuf,
+      d2.pulseRateCorrectedBuf
 };
 
 displayData dPtrs={

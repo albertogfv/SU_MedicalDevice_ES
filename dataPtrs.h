@@ -6,9 +6,15 @@
 
 struct measureData;
 
+struct measureData2;
+
 struct computeData;
 
+struct computeData2;
+
 struct displayData;
+
+struct displayData2;
 
 struct warningAlarmData;
 
