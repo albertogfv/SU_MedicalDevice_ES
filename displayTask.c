@@ -15,21 +15,18 @@ void disp(void* data)
     unsigned char number =*temp2;
     
     char temp[20];
-    sprintf(temp,"Temp        %d C",number);
+    sprintf(temp,"Temp %d C",number);
     
     temp1=(*word).sysCorrectedPtr;
     temp2=(unsigned char*)temp1;
     number =*temp2;
-    
-    char sys[20];
-    sprintf(sys,"Systolic  %d mmHg",number);
-    
+        
     temp1=(*word).diasCorrectedPtr;
     temp2=(unsigned char*)temp1;
-    number =*temp2;
+    unsigned char number2 =*temp2;
     
-    char dias[20];
-    sprintf(dias,"Diastolic %d mmHg",number);
+    char bP[35];
+    sprintf(bP,"Sys/Dia %d/%d mmHg",number,number2);
     
     
     temp1=(*word).prCorrectedPtr;
@@ -37,15 +34,14 @@ void disp(void* data)
     number =*temp2;
     
     char pulse[20];
-    sprintf(pulse,"Pulse Rate  %d BPM",number);
+    sprintf(pulse,"PR %d BPM",number);
     
       
     unsigned short*temp3=(unsigned short*)(*word).batteryStatePtr;
-    //number=(unsigned char*)temp1;
     number =*temp3;
     
     char batt[20];
-    sprintf(batt,"Batt Stat   %d ",number);
+    sprintf(batt,"Batt %d ",number);
     
     // Initialize the OLED display.
     RIT128x96x4Init(1000000);
@@ -54,10 +50,9 @@ void disp(void* data)
     RIT128x96x4Clear();
     
     RIT128x96x4StringDraw(temp,5,9,15);
-    RIT128x96x4StringDraw(sys,5,20,15);
-    RIT128x96x4StringDraw(dias,5,30,15);
-    RIT128x96x4StringDraw(pulse,5,40,15);
-    RIT128x96x4StringDraw(batt,5,50,15);
+    RIT128x96x4StringDraw(bp,5,20,15);
+    RIT128x96x4StringDraw(pulse,5,30,15);
+    RIT128x96x4StringDraw(batt,80,9,15);
     
     delay(1000);
   }
