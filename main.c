@@ -243,7 +243,7 @@ void schedule(void* data)
     //
     TimerEnable(TIMER0_BASE, TIMER_A);
   int i=0;
-  TCB* queue[7];	    //  declare queue as an array of pointers to TCBs
+  //TCB* queue[7];	    //  declare queue as an array of pointers to TCBs
   //  Declare some TCBs 
   TCB displayT;
   TCB measureT;
@@ -278,7 +278,7 @@ void schedule(void* data)
       insert(&statusT);
       insert(&computeT);
       insert(&displayT);
-      insert(&scheduleT);
+      //insert(&scheduleT);
 
   enableVisibleAnnunciation();
   
@@ -286,6 +286,14 @@ void schedule(void* data)
       
   while(1)
   {    
+      if(NULL==head){
+       insert(&measureT);
+      insert(&warningT);
+      insert(&statusT);
+      insert(&computeT);
+      insert(&displayT);
+      }
+	  
       aTCBPtr = head;
       aTCBPtr->taskPtr((aTCBPtr->taskDataPtr) );
       delet(head);
