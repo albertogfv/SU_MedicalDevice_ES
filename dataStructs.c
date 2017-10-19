@@ -92,3 +92,15 @@ typedef struct{
   unsigned short alarmAcknowledge;
 }keypad;
 #define INIT_KEYPAD(X) keypad X={0,0,0,0,0};
+
+
+typedef struct MyStruct 
+{
+
+    void (*taskPtr)(void*);
+    void* taskDataPtr;
+    struct MyStruct* next;
+    struct MyStruct* prev;
+}
+TCB;
+
