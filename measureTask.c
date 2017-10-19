@@ -3,32 +3,35 @@
 #include "measureTask.h"
 #include "dataPtrs.h"
 #include "bool.h"
+#include "systemTimeBase.h"
 
 
 void measure(void* data)
 {
+  if(globalCounter %50 < 5)
+  {
     //cast the void* data to a measureData struct
-    measureData * measureDataPtr = (measureData*) data;
-    //measureData2 * measureDataPtr = (measureData2*) data;
+    //measureData * measureDataPtr = (measureData*) data;
+    measureData2 * measureDataPtr = (measureData2*) data;
     
     
     //printf("Count Calls = %d \n", (*(*measureDataPtr).countCallsPtr));
   
     // all the print statements were for tracking the output without needing the debugger
     //Comment/Uncomment the line below for project 2
-    measureTemp(data);
+    //measureTemp(data);
     //Comment/Uncomment the line below for project 3
-    //measureTempArray(data);
+    measureTempArray(data);
     
     //Comment/Uncomment the line below for project 2
-    measureSysBP(data);
+    //measureSysBP(data);
     //Comment/Uncomment the line below for project 3
-    //measureSysBPArray(data);
+    measureSysBPArray(data);
     
     //Comment/Uncomment the line below for project 2
-    measureDiaBP(data);
+    //measureDiaBP(data);
     //Comment/Uncomment the line below for project 3
-    //measureDiaBPArray(data);
+    measureDiaBPArray(data);
     
     
     //measurePR(data);
@@ -40,6 +43,8 @@ void measure(void* data)
     ++(*(*measureDataPtr).countCallsPtr);
     
     //TODO: ADD A FLAG TO addTask FOR COMPUTE TASK
+  }
+  return;
 }
 
 /*
@@ -96,9 +101,9 @@ void measureTempArray(void* data){
     *direction = 1;
   }
   // increment or decrement (using the direction value) If even the magnitude is 2 if odd the magnitude is 1
-  printf("TempRawBefore = %d \n", tempRawBuf[index]);
+  //printf("TempRawBefore = %d \n", tempRawBuf[index]);
   tempRawBuf[next] = tempRawBuf[index] + (*direction) * (((*countCalls + 1) % 2) + 1);
-  printf("TempRawAfter = %d \n",tempRawBuf[next]);
+  //printf("TempRawAfter = %d \n",tempRawBuf[next]);
 };
 
 /*

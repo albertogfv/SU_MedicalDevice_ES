@@ -70,9 +70,13 @@ typedef struct
   Bool tempHigh;
   Bool pulseLow;
   Bool annunciate;
-  unsigned int count;
+  unsigned int led;
+  unsigned long previousCount;
+  const long pulseFlash;
+  const long tempFlash;
+  const long bpFlash;
 }warning;
-#define INIT_WARNING(X) warning X={FALSE,FALSE,FALSE,FALSE,0};
+#define INIT_WARNING(X) warning X={FALSE,FALSE,FALSE,FALSE,0,0,20,10,5};
 
 typedef struct{
   unsigned int globalCounter;

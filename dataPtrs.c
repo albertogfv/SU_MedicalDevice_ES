@@ -92,8 +92,30 @@ typedef struct
   Bool* tempHighPtr;
   Bool* pulseLowPtr;
   Bool* annunciatePtr;
-  unsigned int* countPtr;
+  unsigned int* ledPtr;
 } warningAlarmData;
+
+// Holds pointers to the variables associated with warning/alarm task:
+typedef struct
+{
+  unsigned int* temperatureRawBufPtr;
+  unsigned int* bloodPressRawBufPtr;
+  unsigned int* pulseRateRawBufPtr;
+  unsigned short* batteryStatePtr;
+  unsigned char* bpOutOfRangePtr;
+  unsigned char* tempOutOfRangePtr;
+  unsigned char* pulseOutOfRangePtr;
+  Bool* bpHighPtr;
+  Bool* tempHighPtr;
+  Bool* pulseLowPtr;
+  Bool* annunciatePtr;
+  unsigned int* ledPtr;
+  unsigned int* countCallsPtr;
+  unsigned long* previousCountPtr;
+  const long* pulseFlashPtr;
+  const long* tempFlashPtr;
+  const long* bpFlashPtr;
+} warningAlarmData2;
 
 // Holds pointers to the variables associated with status task:
 typedef struct 

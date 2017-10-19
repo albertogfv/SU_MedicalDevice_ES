@@ -3,9 +3,12 @@
 #include "dataPtrs.c"
 #include "delays.h"
 #include "drivers/rit128x96x4.h"
+#include "systemTimeBase.h"
 
 void disp(void* data)
 {  
+  if(globalCounter % 50 < 5)
+  {
     displayData*word=(displayData*)data;
     unsigned char** temp1 = (*word).tempCorrectedPtr;
     unsigned char* temp2 =(unsigned char*)temp1;
@@ -57,6 +60,7 @@ void disp(void* data)
     RIT128x96x4StringDraw(batt,5,50,15);
     
     delay(1000);
+  }
   
     return;
 }
