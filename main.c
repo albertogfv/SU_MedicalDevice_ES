@@ -1,6 +1,7 @@
 #include "drivers/rit128x96x4.h"
 #include <stdio.h>
 #include <string.h>
+#include <stlib.h>
 #include "inc/hw_types.h"
 #include "driverlib/sysctl.h"
 #include "dataStructs.c"
@@ -8,8 +9,6 @@
 #include "computeTask.h"
 #include "warningAlarm.h"
 #include "delays.h"
-//#include "displayTask.h"
-//#include "dataPtrs.c"
 #include "dataPtrs.h"
 #include "displayTask.h"
 #include "inc/lm3s8962.h"
@@ -135,15 +134,6 @@ schedulerData schedPtrs={
   &c1.globalCounter
 };
 
-//  Declare a TCB structure
-
-typedef struct 
-{
-  void* taskDataPtr;
-  void (*taskPtr)(void*);
-}
-TCB;
-
 //Declare the prototypes for the tasks
 void compute(void* data);
 void measure(void* data);
@@ -151,6 +141,12 @@ void stat(void* data);
 void alarm(void* data);
 void disp(void* data);
 void schedule(void* data);
+
+
+void insert(struct MyStruct* node);
+struct MyStruct* head=NULL;
+struct MyStruct* tail=NULL;
+void delet(struct MyStruct* node);
 
 int globalCounter = 0;
 //*****************************************************************************
@@ -277,13 +273,12 @@ void schedule(void* data)
   warningT.taskDataPtr = (void*)&wPtrs2;
   
   //Initialize the task queue
-  queue[0] = &measureT;
-  queue[1] = &warningT;
-  queue[2] = &statusT;
-  queue[3] = &computeT;
-  queue[4] = &displayT;
-  //queue[5] = &scheduleT;
-  //queue[6] = &displayTask;
+      insert(&measureT);
+      insert(&warningT);
+      insert(&statusT);
+      insert(&computeT);
+      insert(&displayT);
+      insert(&scheduleT);
 
   enableVisibleAnnunciation();
   
@@ -291,11 +286,56 @@ void schedule(void* data)
       
   while(1)
   {    
-      aTCBPtr = queue[i];
+      aTCBPtr = head;
       aTCBPtr->taskPtr((aTCBPtr->taskDataPtr) );
+      delet(head);
       
       //printf("Global Counter: %i \n", globalCounter);
       i = (i+1)%5;
   }          
+}
+
+
+
+void insert(struct MyStruct* node){
+    if(NULL==head){
+	    head=node;
+	    tail=node;
+    }
+    else
+    {
+	    tail->next=node;
+	    node->prev =tail;
+	    tail=node;
+    }
+	return;
+}
+	
+	
+
+
+void delet(  struct MyStruct* node){
+	if(NULL==head){
+		return;
+	}
+	else if(head==tail){
+		head=NULL;
+		tail=NULL;
+	}
+	else if(head==node){
+		head= head->next;
+	}
+	else if(tail==node){
+		tail=tail->prev;
+	}
+	else
+	{
+		node->prev->next=node->next;
+		node->next->prev=node->prev;
+		node->next=NULL;
+		node->prev=NULL;
+	}
+	return;
+
 }
 
