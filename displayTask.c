@@ -50,7 +50,7 @@ void disp(void* data)
     RIT128x96x4Clear();
     
     RIT128x96x4StringDraw(temp,5,9,15);
-    RIT128x96x4StringDraw(bp,5,20,15);
+    RIT128x96x4StringDraw(bP,5,20,15);
     RIT128x96x4StringDraw(pulse,5,30,15);
     RIT128x96x4StringDraw(batt,80,9,15);
     

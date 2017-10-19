@@ -1,7 +1,7 @@
 #include "drivers/rit128x96x4.h"
 #include <stdio.h>
 #include <string.h>
-#include <stlib.h>
+#include <stdlib.h>
 #include "inc/hw_types.h"
 #include "driverlib/sysctl.h"
 #include "dataStructs.c"
