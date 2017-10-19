@@ -1,9 +1,4 @@
-
- 
-#include "drivers/rit128x96x4.h"
- 
 #include "delays.h"
-
 
 /*
 The function delay creates a delay.

@@ -13,8 +13,14 @@
 #include "dataPtrs.h"
 #include "displayTask.h"
 #include "inc/lm3s8962.h"
+#include "systemTimeBase.h"
+#include "inc/hw_ints.h"
+#include "inc/hw_memmap.h"
+#include "driverlib/debug.h"
+#include "driverlib/gpio.h"
+#include "driverlib/interrupt.h"
+#include "driverlib/timer.h"
 
-#define KBINT 0x3;	//he kb will interrupt on interrupt 3
 
 //  Declare the globals
 
@@ -97,7 +103,26 @@ warningAlarmData wPtrs={
       &w1.tempHigh,
       &w1.pulseLow,
       &w1.annunciate,
-      &w1.count
+      &w1.led
+};
+warningAlarmData2 wPtrs2={
+      m2.temperatureRawBuf,
+      m2.bloodPressRawBuf,
+      m2.pulseRateRawBuf,
+      &s1.batteryState,
+      &a1.bpOutOfRange,
+      &a1.tempOutOfRange,
+      &a1.pulseOutOfRange,
+      &w1.bpHigh,
+      &w1.tempHigh,
+      &w1.pulseLow,
+      &w1.annunciate,
+      &w1.led,
+      &m2.countCalls,
+      &w1.previousCount,
+      &w1.pulseFlash,
+      &w1.tempFlash,
+      &w1.bpFlash
 };
 
 statusData sPtrs={
@@ -114,8 +139,8 @@ schedulerData schedPtrs={
 
 typedef struct 
 {
-      void* taskDataPtr;
-      void (*taskPtr)(void*);
+  void* taskDataPtr;
+  void (*taskPtr)(void*);
 }
 TCB;
 
@@ -126,11 +151,51 @@ void stat(void* data);
 void alarm(void* data);
 void disp(void* data);
 void schedule(void* data);
-void enableVisibleAnnunciation();
-void disableVisibleAnnunciation();
+
+int globalCounter = 0;
+//*****************************************************************************
+//
+// Flags that contain the current value of the interrupt indicator as displayed
+// on the OLED display.
+//
+//*****************************************************************************
+unsigned long g_ulFlags;
+
+//*****************************************************************************
+//
+// The error routine that is called if the driver library encounters an error.
+//
+//*****************************************************************************
+#ifdef DEBUG
+void
+__error__(char *pcFilename, unsigned long ulLine)
+{
+}
+#endif
+//*****************************************************************************
+//
+// The interrupt handler for the first timer interrupt.
+//
+//*****************************************************************************
+void
+Timer0IntHandler(void)
+{
+    //
+    // Clear the timer interrupt.
+    //
+    TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+
+    //
+    // Update the interrupt status on the display.
+    //
+    IntMasterDisable();
+    increment();
+    IntMasterEnable();
+}
 
 void main(void)
-{
+{  
+   
   TCB scheduleT;
         
   scheduleT.taskPtr = schedule;
@@ -148,11 +213,41 @@ void main(void)
 
 void schedule(void* data)
 {
-  int toggle =0;
-  int start =0;
+  //
+    // Set the clocking to run directly from the crystal.
+    //
+    SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN |
+                   SYSCTL_XTAL_8MHZ);
+
+    //
+    // Enable the peripherals used by this example.
+    //
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
+
+    //
+    // Enable processor interrupts.
+    //
+    IntMasterEnable();
+
+    //
+    // Configure the two 32-bit periodic timers.
+    //
+    TimerConfigure(TIMER0_BASE, TIMER_CFG_32_BIT_PER);
+    
+    TimerLoadSet(TIMER0_BASE, TIMER_A, SysCtlClockGet()/10);
+
+    //
+    // Setup the interrupts for the timer timeouts.
+    //
+    IntEnable(INT_TIMER0A);
+    TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+
+    //
+    // Enable the timers.
+    //
+    TimerEnable(TIMER0_BASE, TIMER_A);
   int i=0;
   TCB* queue[7];	    //  declare queue as an array of pointers to TCBs
-
   //  Declare some TCBs 
   TCB displayT;
   TCB measureT;
@@ -179,145 +274,28 @@ void schedule(void* data)
   computeT.taskDataPtr = (void*)&cPtrs2;
 
   warningT.taskPtr = alarm;
-  warningT.taskDataPtr = (void*)&wPtrs;
+  warningT.taskDataPtr = (void*)&wPtrs2;
   
   //Initialize the task queue
-      queue[0] = &measureT;
-      queue[1] = &warningT;
+  queue[0] = &measureT;
+  queue[1] = &warningT;
   queue[2] = &statusT;
   queue[3] = &computeT;
   queue[4] = &displayT;
   //queue[5] = &scheduleT;
-      //queue[6] = &displayTask;
+  //queue[6] = &displayTask;
 
-	   
-    
-    schedulerData*tempA=(schedulerData*)data;
-    unsigned int*clock =(*tempA).globalCounterPtr;
-    enableVisibleAnnunciation();
-    int led = 1;
-    
-    //	Schedule and dispatch the tasks
-	
-    while(1)
-	{
-                
-                
-                if(toggle==1){
-                    
-                  
-                  // Flash at the correct rate for each warning.
-                  if(*(wPtrs.pulseLowPtr))
-                  { 
-                    if((*clock % 200) == 0)
-                    {
-                      if(led == 1)
-                      {
-                        disableVisibleAnnunciation();
-                        led = 0;
-                      }
-                      else
-                      {
-                        enableVisibleAnnunciation();
-                        led = 1;
-                      }
-                    }    
-                  }
-                  else if (*(wPtrs.tempHighPtr))
-                  {
-                    if((*clock % 100) == 0)
-                      if(led == 1)
-                      {
-                        disableVisibleAnnunciation();
-                        led = 0;
-                      }
-                      else
-                      {
-                        enableVisibleAnnunciation();  
-                        led = 1;
-                      }
-                  }
-                  else if (*(wPtrs.bpHighPtr))
-                  {
-                    if((*clock % 50) == 0)
-                    {
-                      if(led == 1)
-                      {
-                        disableVisibleAnnunciation();
-                        led = 0;
-                      }
-                      else
-                      {
-                        enableVisibleAnnunciation();
-                        led = 1;
-                      }
-                    }
-                  }
-                  
-                  delay(100);
-                  *clock=*clock +1;
-                  
-                  if(*clock >= start+500){ 
-                    toggle =0;
-                  }
-                }
-                else{  
-                    
-                    aTCBPtr = queue[i];
-		            aTCBPtr->taskPtr((aTCBPtr->taskDataPtr) );
-		    
-                    *clock =*clock+1;
-                     delay(100);
-                    i = (i+1)%5;
-                    
-                  
-                    if (i==0){
-                        toggle =1;
-                        start= *clock;
-                    }
-                }
-                
-	}
-	
+  enableVisibleAnnunciation();
+  
+  //	Schedule and dispatch the tasks
+      
+  while(1)
+  {    
+      aTCBPtr = queue[i];
+      aTCBPtr->taskPtr((aTCBPtr->taskDataPtr) );
+      
+      //printf("Global Counter: %i \n", globalCounter);
+      i = (i+1)%5;
+  }          
 }
 
-
-
- 
-/*
-Function enableVisibleAnnunciation
-Input: N/A
-Output: Null
-Do: Turns on LED on StellarisWare board
-*/
-void enableVisibleAnnunciation()
-{
-  // Enable the GPIO port that is used for the on-board LED.
-  SYSCTL_RCGC2_R = SYSCTL_RCGC2_GPIOF;
-
-  // Enable the GPIO pin for the LED (PF0).  Set the direction as output, and
-  // enable the GPIO pin for digital function.
-  GPIO_PORTF_DIR_R = 0x01;
-  GPIO_PORTF_DEN_R = 0x01;
-
-  // Turn on the LED.
-  GPIO_PORTF_DATA_R |= 0x01; 
-}
-
-/*
-Function disableVisibleAnnunciation
-Input: N/A
-Output: Null
-Do: Turns off LED on StellarisWare board
-*/
-
-void disableVisibleAnnunciation()
-{
-  // Enable the GPIO pin for the LED (PF0).  Set the direction as output, and
-  // enable the GPIO pin for digital function. 
-  GPIO_PORTF_DIR_R = 0x01;
-  GPIO_PORTF_DEN_R = 0x01;
-
-  // Turn off the LED.
-  GPIO_PORTF_DATA_R &= ~(0x01);
-}
