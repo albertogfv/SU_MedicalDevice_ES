@@ -2,10 +2,12 @@
 
 <project>
   <fileVersion>2</fileVersion>
-  <fileChecksum>1827515348</fileChecksum>
+  <fileChecksum>100680986</fileChecksum>
   <configuration>
     <name>Debug</name>
     <outputs>
+      <file>$PROJ_DIR$\Debug\Obj\buttontest.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\buttontest.pbi</file>
       <file>$TOOLKIT_DIR$\lib\m7M_tl.a</file>
       <file>$TOOLKIT_DIR$\lib\dl7M_tlf.a</file>
       <file>$PROJ_DIR$\dataPtrs.c</file>
@@ -99,6 +101,8 @@
       <file>$PROJ_DIR$\..\..\..\driverlib\systick.h</file>
       <file>$PROJ_DIR$\..\..\..\utils\lwiplib.c</file>
       <file>$PROJ_DIR$\..\..\..\driverlib\gpio.c</file>
+      <file>$PROJ_DIR$\buttontest.h</file>
+      <file>$PROJ_DIR$\buttontest.c</file>
       <file>$PROJ_DIR$\startup_ewarm.c</file>
     </outputs>
     <file>
@@ -106,7 +110,7 @@
       <outputs>
         <tool>
           <name>ILINK</name>
-          <file> 53</file>
+          <file> 55</file>
         </tool>
       </outputs>
     </file>
@@ -115,273 +119,7 @@
       <outputs>
         <tool>
           <name>ICCARM</name>
-          <file> 69</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 74</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 4</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 4</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\dataStructs.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 48</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 45</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 52 32 66 36 9 50 17 18 29 61 4</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 52 32 66 36 50 17 18 29 61 4</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\delays.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 78</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 56</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 8</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 8</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\displayTask.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 63</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 64</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 12 6 52 32 66 36 9 50 17 18 29 61 4 2 8 30 25</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 12 6 52 32 66 36 50 17 18 29 61 4 2 8 30 25</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\computeTask.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 46</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 82</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 2 4 6 52 32 66 36 9 50 17 18 29 61 25</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 2 4 6 52 32 66 36 50 17 18 29 61 25</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\bool.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 68</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 79</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 4</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 4</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\systemTimeBase.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 55</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 60</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 25</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 25</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\main.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 72</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 59</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 30 52 32 66 36 9 50 17 18 29 61 21 23 65 47 6 4 33 5 15 8 3 2 12 49 25 35 41 44 83 28 19</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 30 52 32 66 36 50 17 18 29 61 21 23 65 47 6 4 33 5 15 8 3 2 12 49 25 35 41 44 83 28 19</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\drivers\rit128x96x4.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 57</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 75</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 62 41 84 65 44 83 71 47 30</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 62 41 84 65 44 83 71 47 30</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\hello\startup_ewarm.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 40</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 38</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\warningAlarm.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 81</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 43</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 49 15 4 2 39 32 66 36 9 50 17 18 29 52 61 8 25</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 49 15 4 2 39 32 66 36 50 17 18 29 52 61 8 25</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\statusTask.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 67</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 58</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 26 6 52 32 66 36 9 50 17 18 29 61 4 2 25</file>
-        </tool>
-        <tool>
-          <name>BICOMP</name>
-          <file> 26 6 52 32 66 36 50 17 18 29 61 4 2 25</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\measureTask.c</name>
-      <outputs>
-        <tool>
-          <name>ICCARM</name>
-          <file> 77</file>
+          <file> 71</file>
         </tool>
         <tool>
           <name>BICOMP</name>
@@ -391,11 +129,277 @@
       <inputs>
         <tool>
           <name>ICCARM</name>
-          <file> 52 32 66 36 9 50 17 18 29 61 33 3 2 4 25</file>
+          <file> 6</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 52 32 66 36 50 17 18 29 61 33 3 2 4 25</file>
+          <file> 6</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\dataStructs.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 50</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 47</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 54 34 68 38 11 52 19 20 31 63 6</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 54 34 68 38 52 19 20 31 63 6</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\delays.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 80</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 58</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 10</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 10</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\displayTask.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 65</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 66</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 14 8 54 34 68 38 11 52 19 20 31 63 6 4 10 32 27</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14 8 54 34 68 38 52 19 20 31 63 6 4 10 32 27</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\computeTask.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 48</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 84</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 4 6 8 54 34 68 38 11 52 19 20 31 63 27</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 4 6 8 54 34 68 38 52 19 20 31 63 27</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\bool.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 70</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 81</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 6</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 6</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\systemTimeBase.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 57</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 62</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 27</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 27</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 74</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 61</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 32 54 34 68 38 11 52 19 20 31 63 23 25 67 49 8 6 35 7 17 10 5 4 14 51 27 37 43 46 85 30 21 95</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 32 54 34 68 38 52 19 20 31 63 23 25 67 49 8 6 35 7 17 10 5 4 14 51 27 37 43 46 85 30 21 95</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\drivers\rit128x96x4.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 59</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 77</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 64 43 86 67 46 85 73 49 32</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 64 43 86 67 46 85 73 49 32</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\hello\startup_ewarm.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 42</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 40</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\warningAlarm.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 83</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 45</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 51 17 6 4 41 34 68 38 11 52 19 20 31 54 63 10 27</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 51 17 6 4 41 34 68 38 52 19 20 31 54 63 10 27</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\statusTask.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 69</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 60</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 28 8 54 34 68 38 11 52 19 20 31 63 6 4 27</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 28 8 54 34 68 38 52 19 20 31 63 6 4 27</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\measureTask.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 79</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 78</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 54 34 68 38 11 52 19 20 31 63 35 5 4 6 27</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 54 34 68 38 52 19 20 31 63 35 5 4 6 27</file>
         </tool>
       </inputs>
     </file>
@@ -404,7 +408,7 @@
       <inputs>
         <tool>
           <name>ILINK</name>
-          <file> 42 68 46 69 48 78 63 72 77 57 40 67 55 81 16 37 70 0 1</file>
+          <file> 44 70 0 48 71 50 80 65 74 79 59 42 69 57 83 18 39 72 2 3</file>
         </tool>
       </inputs>
     </file>
@@ -413,7 +417,30 @@
       <inputs>
         <tool>
           <name>BILINK</name>
-          <file> 79 82 74 45 56 64 59 76 75 38 58 60 43</file>
+          <file> 81 1 84 76 47 58 66 61 78 77 40 60 62 45</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\buttontest.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 0</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 1</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 32 54 34 68 38 11 52 19 20 31 63 23 25 67 49 51 27 37 43 46 85 30 21 95</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 32 54 34 68 38 52 19 20 31 63 23 25 67 49 51 27 37 43 46 85 30 21 95</file>
         </tool>
       </inputs>
     </file>
@@ -422,11 +449,11 @@
       <outputs>
         <tool>
           <name>ICCARM</name>
-          <file> 40</file>
+          <file> 42</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 38</file>
+          <file> 40</file>
         </tool>
       </outputs>
     </file>
