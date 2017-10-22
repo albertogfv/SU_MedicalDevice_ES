@@ -124,7 +124,7 @@ SysTickIntHandler(void)
     if(ulDelta)
     {
         // You can watch the variable for ulDelta
-        // Up = 1 Right = 8 down =2 left =4 Bit values
+        // Up = 1 Right = 8 down =2 left =4  select = 16 Bit values
         // Add the current tick count to the entropy pool.
     printf("A button was pressed %d \n", ulDelta);
     }
@@ -145,7 +145,10 @@ void buttonTest(){
   //
     // Set the clocking to run at 50MHz from the PLL.
     //
-    SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN |
+    //SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN |
+    //               SYSCTL_XTAL_8MHZ);
+    // Set the clocking to use directly from crystal
+    SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN |
                    SYSCTL_XTAL_8MHZ);
     SysCtlPWMClockSet(SYSCTL_PWMDIV_8);
 
@@ -198,9 +201,9 @@ void buttonTest(){
     //
     // Loop forever.
     //
-    while(1)
-    {
-    }
+    //while(1)
+    //{
+    //}
 };
 
 
