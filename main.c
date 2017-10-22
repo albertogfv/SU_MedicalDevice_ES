@@ -89,6 +89,14 @@ displayData dPtrs={
       &s1.batteryState
 };
 
+displayData2 dPtrs2={
+      d2.tempCorrectedBuf,
+      d2.bloodPressCorrectedBuf,
+      d2.pulseRateCorrectedBuf,
+      &s1.batteryState,
+      &m2.countCalls
+};
+
 warningAlarmData wPtrs={
       &m1.temperatureRaw,
       &m1.systolicPressRaw,
@@ -182,12 +190,35 @@ Timer0IntHandler(void)
     TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
 
     //
-    // Update the interrupt status on the display.
+    // Update the global counter.
     //
     IntMasterDisable();
     increment();
+    annunciate(&wPtrs2);
     IntMasterEnable();
 }
+
+//*****************************************************************************
+//
+// The interrupt handler for the second timer interrupt.
+//
+//*****************************************************************************
+//void
+//Timer0BIntHandler(void)
+//{
+//    //
+//    // Clear the timer interrupt.
+//    //
+//    TimerIntClear(TIMER0_BASE, TIMER_TIMB_TIMEOUT);
+//
+//    //
+//    // Update the global counter.
+//    //
+//    IntMasterDisable();
+//    annunciate(&wPtrs2);
+//    
+//    IntMasterEnable();
+//}
 
 void main(void)
 {  
@@ -257,7 +288,7 @@ void schedule(void* data)
 
   //Initialize the TCBs
   displayT.taskPtr = disp;
-  displayT.taskDataPtr = (void*)&dPtrs;
+  displayT.taskDataPtr = (void*)&dPtrs2;
   measureT.taskPtr = measure;
   //measureT.taskDataPtr = (void*)&mPtrs;
   //Comment out the above line and use the new line below. You will also need to uncomment some lines in measureTask.c
@@ -283,10 +314,13 @@ void schedule(void* data)
   enableVisibleAnnunciation();
   
   //	Schedule and dispatch the tasks
+  
+  int previousCount = 0;
       
   while(1)
   {    
-      if(NULL==head){
+      if(NULL==head && (globalCounter - previousCount >= 50)){
+        printf("\n\n\nSCHEDULING!\n\n\n");
        insert(&measureT);
       insert(&warningT);
       insert(&statusT);
@@ -294,12 +328,17 @@ void schedule(void* data)
       insert(&displayT);
       }
 	  
+      if(!(NULL==head))
+      {
       aTCBPtr = head;
       aTCBPtr->taskPtr((aTCBPtr->taskDataPtr) );
       delet(head);
       
       //printf("Global Counter: %i \n", globalCounter);
       i = (i+1)%5;
+      if(i == 0)
+        previousCount = globalCounter;
+      }
   }          
 }
 
@@ -346,4 +385,3 @@ void delet(  struct MyStruct* node){
 	return;
 
 }
-
