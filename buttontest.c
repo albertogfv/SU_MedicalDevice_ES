@@ -72,98 +72,63 @@ SysTickIntHandler(void)
 {
     unsigned long ulData, ulDelta;
 
-    //
-
-    //
     // Indicate that a timer interrupt has occurred.
-    //
     HWREGBITW(&g_ulFlags, FLAG_CLOCK_TICK) = 1;
 
-    //
-
-
-
-    //
     // Read the state of the push buttons.
-    //
     ulData = (GPIOPinRead(GPIO_PORTE_BASE, (GPIO_PIN_0 | GPIO_PIN_1 |
                                             GPIO_PIN_2 | GPIO_PIN_3)) |
               (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_1) << 3));
 
-    //
-    // Determine the switches that are at a different state than the debounced
-    // state.
+    // Determine the switches that are at a different state than the debounced state.
     //debug line to imitate up click
     //ulData = 30;
     ulDelta = ulData ^ g_ucSwitches;
 
-    //
     // Increment the clocks by one.
-    //
-    //Exclusive or of clock B If a bit is different in A and B then 1 if the bits have the same value = 0
+    // Exclusive or of clock B If a bit is different in A and B then 1 if the bits have the same value = 0
     g_ucSwitchClockA ^= g_ucSwitchClockB;
-    //Compliment of clock B. This changes 1 to 0 and 0 to 1 bitwise
+    // Compliment of clock B. This changes 1 to 0 and 0 to 1 bitwise
     g_ucSwitchClockB = ~g_ucSwitchClockB;
 
-    //
     // Reset the clocks corresponding to switches that have not changed state.
-    //
     g_ucSwitchClockA &= ulDelta;
     g_ucSwitchClockB &= ulDelta;
 
-    //
     // Get the new debounced switch state.
-    //
     g_ucSwitches &= g_ucSwitchClockA | g_ucSwitchClockB;
     g_ucSwitches |= (~(g_ucSwitchClockA | g_ucSwitchClockB)) & ulData;
 
-    //
     // Determine the switches that just changed debounced state.
-    //
     ulDelta ^= (g_ucSwitchClockA | g_ucSwitchClockB);
 
-    //
     // See if any switches just changed debounced state.
-    //
     if(ulDelta)
     {
         // You can watch the variable for ulDelta
         // Up = 1 Right = 8 down =2 left =4  select = 16 Bit values
         // Add the current tick count to the entropy pool.
-    printf("A button was pressed %d \n", ulDelta);
+        printf("A button was pressed %d \n", ulDelta);
     }
 
-    //
     // See if the select button was just pressed.
-    //
     if((ulDelta & 0x10) && !(g_ucSwitches & 0x10))
     {
-        //
         // Set a flag to indicate that the select button was just pressed.
-        //
         HWREGBITW(&g_ulFlags, FLAG_BUTTON_PRESS) = 1;
     }
 }
 
 void buttonTest(){
-  //
-    // Set the clocking to run at 50MHz from the PLL.
-    //
-    //SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN |
-    //               SYSCTL_XTAL_8MHZ);
     // Set the clocking to use directly from crystal
     SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN |
                    SYSCTL_XTAL_8MHZ);
     SysCtlPWMClockSet(SYSCTL_PWMDIV_8);
 
-    //
     // Get the system clock speed.
-    //
     g_ulSystemClock = SysCtlClockGet();
 
-    //
     // Enable the peripherals used by the application.
-    //
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
