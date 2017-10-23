@@ -1744,6 +1744,12 @@
     <name>$PROJ_DIR$\bool.h</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\buttontest.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\buttontest.h</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\computeTask.c</name>
   </file>
   <file>

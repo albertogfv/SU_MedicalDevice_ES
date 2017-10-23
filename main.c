@@ -19,6 +19,7 @@
 #include "driverlib/gpio.h"
 #include "driverlib/interrupt.h"
 #include "driverlib/timer.h"
+#include "buttontest.h"
 
 
 //  Declare the globals
@@ -32,6 +33,32 @@ INIT_ALARMS(a1);
 INIT_WARNING(w1);
 INIT_SCHEDULER(c1);
 INIT_KEYPAD(k1);
+
+//*****************************************************************************
+//
+// The clock rate for the SysTick interrupt.  All events in the application
+// occur at some fraction of this clock rate.
+//
+//*****************************************************************************
+#define CLOCK_RATE              300
+
+//*****************************************************************************
+//
+// A set of flags used to track the state of the application.
+//
+//*****************************************************************************
+extern unsigned long g_ulFlags;
+#define FLAG_CLOCK_TICK         0           // A timer interrupt has occurred
+#define FLAG_CLOCK_COUNT_LOW    1           // The low bit of the clock count
+#define FLAG_CLOCK_COUNT_HIGH   2           // The high bit of the clock count
+#define FLAG_UPDATE             3           // The display should be updated
+#define FLAG_BUTTON             4           // Debounced state of the button
+#define FLAG_DEBOUNCE_LOW       5           // Low bit of the debounce clock
+#define FLAG_DEBOUNCE_HIGH      6           // High bit of the debounce clock
+#define FLAG_BUTTON_PRESS       7           // The button was just pressed
+#define FLAG_ENET_RXPKT         8           // An Ethernet Packet received
+#define FLAG_ENET_TXPKT         9           // An Ethernet Packet transmitted
+
 
 //Connect pointer structs to data
 measureData mPtrs = 
@@ -149,6 +176,7 @@ void stat(void* data);
 void alarm(void* data);
 void disp(void* data);
 void schedule(void* data);
+void buttonTest();
 
 
 void insert(struct MyStruct* node);
@@ -222,7 +250,9 @@ Timer0IntHandler(void)
 
 void main(void)
 {  
-   
+  // Test function for button feedback. This has an infinite loop unfortunately
+  // Will need to fix tomorrow
+  buttonTest();
   TCB scheduleT;
         
   scheduleT.taskPtr = schedule;
