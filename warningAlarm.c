@@ -21,13 +21,10 @@ Do: Checks if vitals are out of range
 */
 void alarm(void *data)
 {
-  if(globalCounter % 50 < 5)
-  {  
+    printf("\n CHECKING WARNINGS! \n");
     //warningAlarmData * alarm = (warningAlarmData*) data;
     checkWarnings(data);
-  }
-
-    annunciate(data);
+    //annunciate(data);
 
 }
 
@@ -44,6 +41,7 @@ void checkWarnings(void *data)
   
   //find the current index of the array based on call count. 
   unsigned int index = ((*(alarm->countCallsPtr)) % 8);
+  printf("Index main: %i \n\n", index);
   
   unsigned int* tempBuf = (*alarm).temperatureRawBufPtr;
   unsigned int* bpBuf = (*alarm).bloodPressRawBufPtr;
@@ -76,13 +74,21 @@ void checkTemp(unsigned int* temp, Bool* tempHigh, int index)
 {
   //printf("checkTemp: %i \n", temp[index]);
   // Check if temperature is in range. Set warning accordingly
+  printf("Index: %i \n\n", index);
   if((temp[index]) < 41.46 || (temp[index]) > 43.73)
   {
-    tempHigh = (Bool*)TRUE;
+    printf("\n\n temp index: %i \n\n", temp[index]);
+    *tempHigh = *(Bool*)TRUE;
+    if(tempHigh)
+    {
+      printf("TEMPHIGH TRUE\n");
+    }
   } 
   else
   {
-    tempHigh = (Bool*)FALSE;
+    *tempHigh = *(Bool*)FALSE;
+    if(!tempHigh)
+    printf("TEMPHIGH FALSE \n");
   }
 }
 
@@ -97,11 +103,11 @@ void checkBp(unsigned int* bpBuf, Bool* bpHigh, int index)
   // Check if blood pressure is in range.  Set warnings accordingly
   if ((bpBuf[index]) > 60.5 || (bpBuf[index]) < 55.5 || (bpBuf[index + 8]) > 49.33 || (bpBuf[index + 8]) < 42.67)
   {
-    bpHigh = (Bool*)TRUE; 
+    *bpHigh = *(Bool*)TRUE; 
   }
   else
   {
-    bpHigh = (Bool*)FALSE;
+    *bpHigh = *(Bool*)FALSE;
   }
 }
 
@@ -142,7 +148,7 @@ void annunciate(void *data)
   const long bpFlash = *(alarm->bpFlashPtr);
   
   // Flash at the correct rate for each warning.
-      if(*(alarm->pulseLowPtr))
+      if(*(alarm->tempHighPtr)) //if(*(alarm->pulseLowPtr))
       { 
         if(globalCounter - (*previousCount) >= pulseFlash)
         {
@@ -163,7 +169,7 @@ void annunciate(void *data)
           }
         }    
       }
-      else if (*(alarm->tempHighPtr))
+      else if (*(alarm->pulseLowPtr))
       {
         if(globalCounter - (*previousCount) >= tempFlash)
         { 

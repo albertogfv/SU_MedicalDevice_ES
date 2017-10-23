@@ -5,43 +5,97 @@
 #include "drivers/rit128x96x4.h"
 #include "systemTimeBase.h"
 
+//void disp(void* data)
+//{  
+//  if(globalCounter % 50 < 5)
+//  {
+//    displayData*word=(displayData*)data;
+//    unsigned char** temp1 = (*word).tempCorrectedPtr;
+//    unsigned char* temp2 =(unsigned char*)temp1;
+//    unsigned char number =*temp2;
+//    
+//    char temp[20];
+//    sprintf(temp,"Temp %d C",number);
+//    
+//    temp1=(*word).sysCorrectedPtr;
+//    temp2=(unsigned char*)temp1;
+//    number =*temp2;
+//        
+//    temp1=(*word).diasCorrectedPtr;
+//    temp2=(unsigned char*)temp1;
+//    unsigned char number2 =*temp2;
+//    
+//    char bP[35];
+//    sprintf(bP,"Sys/Dia %d/%d mmHg",number,number2);
+//    
+//    
+//    temp1=(*word).prCorrectedPtr;
+//    temp2=(unsigned char*)temp1;
+//    number =*temp2;
+//    
+//    char pulse[20];
+//    sprintf(pulse,"PR %d BPM",number);
+//    
+//      
+//    unsigned short*temp3=(unsigned short*)(*word).batteryStatePtr;
+//    number =*temp3;
+//    
+//    char batt[20];
+//    sprintf(batt,"Batt %d ",number);
+//    
+//    // Initialize the OLED display.
+//    RIT128x96x4Init(1000000);
+//    
+//    // Clear the OLED display
+//    RIT128x96x4Clear();
+//    
+//    RIT128x96x4StringDraw(temp,5,9,15);
+//    RIT128x96x4StringDraw(bP,5,20,15);
+//    RIT128x96x4StringDraw(pulse,5,30,15);
+//    RIT128x96x4StringDraw(batt,80,9,15);
+//    
+//    delay(1000);
+//  }
+//  
+//    return;
+//}
+
 void disp(void* data)
 {  
-  if(globalCounter % 50 < 5)
-  {
-    displayData*word=(displayData*)data;
-    unsigned char** temp1 = (*word).tempCorrectedPtr;
-    unsigned char* temp2 =(unsigned char*)temp1;
-    unsigned char number =*temp2;
+
+    printf("\n CHECKING DISPLAY! \n");
+    displayData2 * dData = (displayData2*)data;
+    
+    //find the current index of the array based on call count. 
+    unsigned int index = ((*(dData->countCallsPtr)) % 8);
+    unsigned int diaIndex = index + 8;
+    
+    //find the latest value of temperature
+    unsigned char tempCorrect =(dData->tempCorrectedBufPtr[index]);
     
     char temp[20];
-    sprintf(temp,"Temp %d C",number);
+    sprintf(temp,"Temp %d C",tempCorrect);
     
-    temp1=(*word).sysCorrectedPtr;
-    temp2=(unsigned char*)temp1;
-    number =*temp2;
+    //find the latest value of systolic bp
+    unsigned char sysCorrect =(dData->bloodPressCorrectedBufPtr[index]);
         
-    temp1=(*word).diasCorrectedPtr;
-    temp2=(unsigned char*)temp1;
-    unsigned char number2 =*temp2;
+    //find the latest value of diastolic bp
+    unsigned char diaCorrect =(dData->bloodPressCorrectedBufPtr[diaIndex]);
     
     char bP[35];
-    sprintf(bP,"Sys/Dia %d/%d mmHg",number,number2);
+    sprintf(bP,"Sys/Dia %d/%d mmHg",sysCorrect,diaCorrect);
     
     
-    temp1=(*word).prCorrectedPtr;
-    temp2=(unsigned char*)temp1;
-    number =*temp2;
+    //find the latest value of pulse rate
+    unsigned char pulseCorrect =(dData->pulseRateCorrectedBufPtr[index]);
     
     char pulse[20];
-    sprintf(pulse,"PR %d BPM",number);
+    sprintf(pulse,"PR %d BPM",pulseCorrect);
     
-      
-    unsigned short*temp3=(unsigned short*)(*word).batteryStatePtr;
-    number =*temp3;
+    unsigned short battery = (*(dData->batteryStatePtr));
     
     char batt[20];
-    sprintf(batt,"Batt %d ",number);
+    sprintf(batt,"Batt %d ",battery);
     
     // Initialize the OLED display.
     RIT128x96x4Init(1000000);
@@ -55,7 +109,6 @@ void disp(void* data)
     RIT128x96x4StringDraw(batt,80,9,15);
     
     delay(1000);
-  }
   
     return;
 }

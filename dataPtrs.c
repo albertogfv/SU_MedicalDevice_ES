@@ -70,11 +70,12 @@ typedef struct
 // Holds pointers to the variables associated with display task:
 typedef struct 
 {
-  unsigned short* modePtr;
   unsigned char* tempCorrectedBufPtr;
   unsigned char* bloodPressCorrectedBufPtr;
   unsigned char* pulseRateCorrectedBufPtr;
   unsigned short* batteryStatePtr;
+  unsigned int* countCallsPtr;
+  //unsigned short* modePtr;
 }displayData2;
 
 // Holds pointers to the variables associated with warning/alarm task:

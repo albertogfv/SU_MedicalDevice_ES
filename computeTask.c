@@ -45,8 +45,8 @@ void compute(void *data) {
 
 void compute(void *data)
 {
-  if(globalCounter % 50 < 5)
-  {
+
+    printf(" \n CHECKING COMPUTE! \n");
   // Cast struct
   computeData2* cData =(computeData2*)data;
   
@@ -68,6 +68,5 @@ void compute(void *data)
   // Transform raw pulse rate data to corrected pulse rate data
   //(cData->pulseRateCorrectedBufPtr[index + 8]) = (unsigned char)(8 + (3 * (cData->pulseRateRawBufPtr[index + 8])));
   //printf("PulseCorrected: %i \n", cData->pulseRateCorrectedBufPtr[index + 8]);
-  }
   return;
 }

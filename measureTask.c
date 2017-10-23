@@ -8,8 +8,8 @@
 
 void measure(void* data)
 {
-  if(globalCounter %50 < 5)
-  {
+
+    printf("\n CHECKING MEASUREMENTS! \n");
     //cast the void* data to a measureData struct
     //measureData * measureDataPtr = (measureData*) data;
     measureData2 * measureDataPtr = (measureData2*) data;
@@ -43,7 +43,7 @@ void measure(void* data)
     ++(*(*measureDataPtr).countCallsPtr);
     
     //TODO: ADD A FLAG TO addTask FOR COMPUTE TASK
-  }
+
   return;
 }
 
