@@ -21,10 +21,10 @@ Do: Checks if vitals are out of range
 */
 void alarm(void *data)
 {
-    printf("\n CHECKING WARNINGS! \n");
+    //printf("\n CHECKING WARNINGS! \n");
     //warningAlarmData * alarm = (warningAlarmData*) data;
     checkWarnings(data);
-    //annunciate(data);
+    annunciate(data);
 
 }
 
@@ -41,7 +41,7 @@ void checkWarnings(void *data)
   
   //find the current index of the array based on call count. 
   unsigned int index = ((*(alarm->countCallsPtr)) % 8);
-  printf("Index main: %i \n\n", index);
+  //printf("Index main: %i \n\n", index);
   
   unsigned int* tempBuf = (*alarm).temperatureRawBufPtr;
   unsigned int* bpBuf = (*alarm).bloodPressRawBufPtr;
@@ -58,6 +58,7 @@ void checkWarnings(void *data)
 
   // Check vitals against prescribed ranges. Set warnings accordingly
   checkTemp(tempBuf, tempHigh, index);
+
   checkBp(bpBuf, bpHigh, index);
   checkPulse(pulseBuf, pulseLow, index);
 }
@@ -74,22 +75,17 @@ void checkTemp(unsigned int* temp, Bool* tempHigh, int index)
 {
   //printf("checkTemp: %i \n", temp[index]);
   // Check if temperature is in range. Set warning accordingly
-  printf("Index: %i \n\n", index);
+  //printf("Index: %i \n\n", index);
   if((temp[index]) < 41.46 || (temp[index]) > 43.73)
   {
-    printf("\n\n temp index: %i \n\n", temp[index]);
-    *tempHigh = *(Bool*)TRUE;
-    if(tempHigh)
-    {
-      printf("TEMPHIGH TRUE\n");
-    }
+    //printf("\n\n temp index: %i \n\n", temp[index]);
+    *tempHigh = TRUE;
   } 
   else
   {
-    *tempHigh = *(Bool*)FALSE;
-    if(!tempHigh)
-    printf("TEMPHIGH FALSE \n");
+    *tempHigh = FALSE;
   }
+  
 }
 
 /*
@@ -103,11 +99,11 @@ void checkBp(unsigned int* bpBuf, Bool* bpHigh, int index)
   // Check if blood pressure is in range.  Set warnings accordingly
   if ((bpBuf[index]) > 60.5 || (bpBuf[index]) < 55.5 || (bpBuf[index + 8]) > 49.33 || (bpBuf[index + 8]) < 42.67)
   {
-    *bpHigh = *(Bool*)TRUE; 
+    *bpHigh = TRUE; 
   }
   else
   {
-    *bpHigh = *(Bool*)FALSE;
+    *bpHigh = FALSE;
   }
 }
 
@@ -123,12 +119,12 @@ void checkPulse(unsigned int* pulse, Bool* pulseLow, int index)
   // Check if pulse rate is in range. Set warning accordingly.
   if ((int)(*pulse) < 60)
   {
-    *pulseLow = *(Bool*)TRUE;
+    *pulseLow = TRUE;
     //printf("Here: %i\n", 1);
   }
   else
   {
-    *pulseLow = *(Bool*)FALSE;
+    *pulseLow = FALSE;
   }
 }
 
@@ -154,7 +150,7 @@ void annunciate(void *data)
         {
           (*previousCount) = globalCounter;
           printf("PREVIOUS COUNT: %i \n", (*previousCount));
-          printf("PULSELOW LED \n\n");
+          //printf("PULSELOW LED \n\n");
           if((*led) == 1)
           {
             //printf("LED OFF \n\n");
@@ -174,7 +170,8 @@ void annunciate(void *data)
         if(globalCounter - (*previousCount) >= tempFlash)
         { 
           (*previousCount) = globalCounter;
-          printf("TEMPHIGH LED \n\n");
+          printf("PREVIOUS COUNT: %i \n", (*previousCount));
+          //printf("TEMPHIGH LED \n\n");
           if((*led) == 1)
           {
             disableVisibleAnnunciation();
@@ -205,6 +202,7 @@ void annunciate(void *data)
           }
         }
       }
+      return;
  
 }
 
@@ -226,6 +224,7 @@ void enableVisibleAnnunciation()
 
   // Turn on the LED.
   GPIO_PORTF_DATA_R |= 0x01; 
+  return;
 }
 
 /*
@@ -244,5 +243,6 @@ void disableVisibleAnnunciation()
 
   // Turn off the LED.
   GPIO_PORTF_DATA_R &= ~(0x01);
+  return;
 }
 

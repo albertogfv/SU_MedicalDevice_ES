@@ -6,7 +6,7 @@
  void stat(void *data) {
 
 
-     printf("\n CHECKING STATUS! \n");
+     //printf("\n CHECKING STATUS! \n");
     // Recast task argument pointer to task’s data structure type
     statusData*word=(statusData*)data;
     unsigned short*temp3=(unsigned short*)(*word).batteryStatePtr;
@@ -15,7 +15,6 @@
     //(*word).batteryStatePtr = (unsigned char *)(*temp3);
 	return;
 
-   return;
  }
 	
  

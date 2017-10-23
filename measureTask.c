@@ -9,7 +9,7 @@
 void measure(void* data)
 {
 
-    printf("\n CHECKING MEASUREMENTS! \n");
+    //printf("\n CHECKING MEASUREMENTS! \n");
     //cast the void* data to a measureData struct
     //measureData * measureDataPtr = (measureData*) data;
     measureData2 * measureDataPtr = (measureData2*) data;

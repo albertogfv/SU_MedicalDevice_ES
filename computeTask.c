@@ -46,7 +46,7 @@ void compute(void *data) {
 void compute(void *data)
 {
 
-    printf(" \n CHECKING COMPUTE! \n");
+    //printf(" \n CHECKING COMPUTE! \n");
   // Cast struct
   computeData2* cData =(computeData2*)data;
   
